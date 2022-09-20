@@ -11,9 +11,9 @@ namespace inmobiliaria_Lorenzo.Controllers
     public class InquilinosController : Controller
     {
         private RepositorioInquilino repo;
-        public InquilinosController()
+        public InquilinosController(IConfiguration configuration)
         {
-            repo = new RepositorioInquilino();
+            repo = new RepositorioInquilino(configuration);
         }
         // GET: inquilinos
         public ActionResult Index()

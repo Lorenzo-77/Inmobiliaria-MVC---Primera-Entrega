@@ -9,12 +9,11 @@ using System.Threading.Tasks;
 
 namespace inmobiliaria_Lorenzo.Models;
 
-    public class RepositorioInquilino
+    public class RepositorioInquilino : RepositorioBase
     {
-        protected readonly string connectionString;
-        public RepositorioInquilino()
+        public RepositorioInquilino(IConfiguration configuration) : base(configuration)
         {
-            connectionString = "Server=localhost;User=root;Password=;Database=bdinmobiliaria;SslMode=none";
+            
         }
         public int AltaInquilino(Inquilino i)
         {

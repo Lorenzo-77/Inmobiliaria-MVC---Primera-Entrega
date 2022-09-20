@@ -12,9 +12,9 @@ namespace inmobiliaria_Lorenzo.Controllers
     public class PropietariosController : Controller
     {
         private RepositorioPropietario repo;
-        public PropietariosController()
+        public PropietariosController(IConfiguration configuration)
         {
-            repo = new RepositorioPropietario();
+            repo = new RepositorioPropietario(configuration);
         }
         // GET: Propietarios
         public ActionResult Index()

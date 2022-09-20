@@ -7,44 +7,41 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace inmobiliaria_Lorenzo.Models;
-
-       public class RepositorioPropietario : RepositorioBase
+namespace inmobiliaria_Lorenzo.Models
+{
+    public class RepositorioTipoInmueble : RepositorioBase
     {
-        public RepositorioPropietario(IConfiguration configuration) : base(configuration)
+
+        public RepositorioTipoInmueble(IConfiguration configuration) : base(configuration)
         {
 
         }
-        public int AltaPropietario(Propietario p)
+        public int AltaTipoInmueble(TipoInmueble t)
         {
             int res = -1;
             using (var connection = new MySqlConnection(connectionString))
             {
-                string sql = $"INSERT INTO propietario (Nombre, Apellido, Dni, Telefono, Email) " +
-                    $"VALUES (@nombre, @apellido, @dni, @telefono, @email);" +
-                    "SELECT LAST_INSERT_ID();";//devuelve el id insertado (LAST_INSERT_ID para mysql)
+                string sql = @"INSERT INTO tipo_inmueble (descripcion) 
+                VALUES (@descripcion); 
+                SELECT LAST_INSERT_ID();";
                 using (var command = new MySqlCommand(sql, connection))
                 {
                     command.CommandType = CommandType.Text;
-                    command.Parameters.AddWithValue("@nombre", p.Nombre);
-                    command.Parameters.AddWithValue("@apellido", p.Apellido);
-                    command.Parameters.AddWithValue("@dni", p.DNI);
-                    command.Parameters.AddWithValue("@telefono", p.Telefono);
-                    command.Parameters.AddWithValue("@email", p.Email);
+                    command.Parameters.AddWithValue("@descripcion", t.Descripcion);
                     connection.Open();
                     res = Convert.ToInt32(command.ExecuteScalar());
-                    p.Id = res;
+                    t.Id = res;
                     connection.Close();
                 }
             }
             return res;
         }
-        public int BajaPropietario(int id)
+        public int BajaTipoInmueble(int id)
         {
             int res = -1;
             using (var connection = new MySqlConnection(connectionString))
             {
-                string sql = $"DELETE FROM propietario WHERE id = @id";
+                string sql = @"DELETE FROM tipo_inmueble WHERE id = @id";
                 using (var command = new MySqlCommand(sql, connection))
                 {
                     command.CommandType = CommandType.Text;
@@ -56,21 +53,19 @@ namespace inmobiliaria_Lorenzo.Models;
             }
             return res;
         }
-        public int ModificacionPropietario(Propietario p)
+        public int ModificacionTipoInmueble(TipoInmueble t)
         {
             int res = -1;
             using (var connection = new MySqlConnection(connectionString))
             {
-                string sql = $"UPDATE propietario SET nombre=@nombre, apellido=@apellido, dni=@dni, telefono=@telefono, email=@email WHERE id = @id";
+                string sql = @"UPDATE tipo_inmueble 
+                SET descripcion=@descripcion 
+                WHERE id = @id";
                 using (var command = new MySqlCommand(sql, connection))
                 {
                     command.CommandType = CommandType.Text;
-                    command.Parameters.AddWithValue("@id", p.Id);
-                    command.Parameters.AddWithValue("@nombre", p.Nombre);
-                    command.Parameters.AddWithValue("@apellido", p.Apellido);
-                    command.Parameters.AddWithValue("@dni", p.DNI);
-                    command.Parameters.AddWithValue("@telefono", p.Telefono);
-                    command.Parameters.AddWithValue("@email", p.Email);
+                    command.Parameters.AddWithValue("@id", t.Id);
+                    command.Parameters.AddWithValue("@descripcion", t.Descripcion);
                     connection.Open();
                     res = command.ExecuteNonQuery();
                     connection.Close();
@@ -78,27 +73,22 @@ namespace inmobiliaria_Lorenzo.Models;
             }
             return res;
         }
-        public List<Propietario> ObtenerPropietarios()
+        public List<TipoInmueble> ObtenerTipoInmueble()
         {
-            List<Propietario> res = new List<Propietario>();
+            List<TipoInmueble> res = new List<TipoInmueble>();
             using (var conn = new MySqlConnection(connectionString))
             {
-                string sql = "SELECT id, nombre, apellido,dni,telefono,email FROM Propietario";
+                string sql = @"SELECT id, descripcion FROM tipo_inmueble";
                 using (var comm = new MySqlCommand(sql, conn))
                 {
                     conn.Open();
                     var reader = comm.ExecuteReader();
                     while (reader.Read())
                     {
-                        res.Add(new Propietario
+                        res.Add(new TipoInmueble
                         {
                             Id = reader.GetInt32(0),
-                            Nombre = reader.GetString(1),
-                            Apellido = reader.GetString(2),
-                            DNI = reader.GetString(3),
-                            Telefono = reader.GetString(4),
-                            Email = reader.GetString(5),
-
+                            Descripcion = reader.GetString(1),
                         });
                     }
                     conn.Close();
@@ -106,13 +96,12 @@ namespace inmobiliaria_Lorenzo.Models;
             }
             return res;
         }
-        public Propietario ObtenerPorId(int id)
+        public TipoInmueble ObtenerPorId(int id)
         {
-            Propietario p = null;
+            TipoInmueble t = null;
             using (var connection = new MySqlConnection(connectionString))
             {
-                string sql = $"SELECT id,nombre,apellido,dni,telefono,email FROM propietario" +
-                    $" WHERE id=@id";
+                string sql = @"SELECT id,descripcion FROM tipo_inmueble WHERE id=@id";
                 using (var command = new MySqlCommand(sql, connection))
                 {
                     command.Parameters.Add("@id", MySqlDbType.Int32).Value = id;
@@ -121,20 +110,18 @@ namespace inmobiliaria_Lorenzo.Models;
                     var reader = command.ExecuteReader();
                     if (reader.Read())
                     {
-                        p = new Propietario
+                        t = new TipoInmueble
                         {
                             Id = reader.GetInt32(0),
-                            Nombre = reader.GetString(1),
-                            Apellido = reader.GetString(2),
-                            DNI = reader.GetString(3),
-                            Telefono = reader.GetString(4),
-                            Email = reader.GetString(5)
+                            Descripcion = reader.GetString(1)
                         };
                     }
                     connection.Close();
                 }
             }
-            return p;
+            return t;
         }
 
     }
+
+}
