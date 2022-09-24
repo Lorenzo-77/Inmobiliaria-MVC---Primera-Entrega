@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-09-2022 a las 22:26:58
+-- Tiempo de generación: 24-09-2022 a las 22:55:37
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 7.4.29
 
@@ -97,6 +97,20 @@ INSERT INTO `inquilino` (`id`, `Nombre`, `Apellido`, `Dni`, `Telefono`, `Email`)
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `pagos`
+--
+
+CREATE TABLE `pagos` (
+  `id` int(11) NOT NULL,
+  `numero_pago` varchar(50) NOT NULL,
+  `fecha_pago` date NOT NULL,
+  `importe` decimal(10,0) NOT NULL,
+  `id_contrato` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `propietario`
 --
 
@@ -134,6 +148,31 @@ CREATE TABLE `tipo_inmueble` (
 INSERT INTO `tipo_inmueble` (`id`, `descripcion`) VALUES
 (1, 'sfsdf');
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuario`
+--
+
+CREATE TABLE `usuario` (
+  `id` int(11) NOT NULL,
+  `Nombre` varchar(50) NOT NULL,
+  `Apellido` varchar(50) NOT NULL,
+  `Email` varchar(120) NOT NULL,
+  `Password` varchar(120) NOT NULL,
+  `Avatar` varchar(250) NOT NULL,
+  `rol` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `usuario`
+--
+
+INSERT INTO `usuario` (`id`, `Nombre`, `Apellido`, `Email`, `Password`, `Avatar`, `rol`) VALUES
+(2, 'Lorenzo', 'Muñoz', 'loren@gmail.com', 'gaKWIZhewa3GPzT3mzHQibhDRKW+MZPLSDZOyi27mkA=', '/Uploads\\cvlorenzo.png', 1),
+(3, 'Candela', 'Dias', 'cande@gmail.com', 'gaKWIZhewa3GPzT3mzHQibhDRKW+MZPLSDZOyi27mkA=', '/Uploads\\logoportada.png', 2),
+(4, 'Mauro', 'Gil', 'gil@gmail.com', 'NdcR1/+sMCx0JJXUl6J2h1DJEug3OvZ5usb0GByjvds=', '/Uploads\\logoportada.png', 2);
+
 --
 -- Índices para tablas volcadas
 --
@@ -157,6 +196,12 @@ ALTER TABLE `inquilino`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `pagos`
+--
+ALTER TABLE `pagos`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `propietario`
 --
 ALTER TABLE `propietario`
@@ -166,6 +211,12 @@ ALTER TABLE `propietario`
 -- Indices de la tabla `tipo_inmueble`
 --
 ALTER TABLE `tipo_inmueble`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `usuario`
+--
+ALTER TABLE `usuario`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -191,6 +242,12 @@ ALTER TABLE `inquilino`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT de la tabla `pagos`
+--
+ALTER TABLE `pagos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `propietario`
 --
 ALTER TABLE `propietario`
@@ -201,6 +258,12 @@ ALTER TABLE `propietario`
 --
 ALTER TABLE `tipo_inmueble`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `usuario`
+--
+ALTER TABLE `usuario`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

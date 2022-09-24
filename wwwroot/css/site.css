@@ -15,4 +15,10 @@ html {
 
 body {
   margin-bottom: 60px;
+  background: linear-gradient(rgba(2, 5, 4, 0.507), rgba(1, 2, 1, 0.466)), url("https://img.freepik.com/foto-gratis/vista-alta-casa-modelo-juguete-llaves_23-2148301692.jpg?w=2000");
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  padding: 0;
+  margin: 0;
 }

@@ -1,10 +1,10 @@
-@model IEnumerable<inmobiliaria_Lorenzo.Models.Propietario>
+@model IEnumerable<inmobiliaria_Lorenzo.Models.Pago>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Propietarios</h1>
+<h1>Pagos</h1>
 
 <p>
     <a asp-action="Create">Crear nuevo</a>
@@ -13,19 +13,16 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Nombre)
+                @Html.DisplayNameFor(model => model.NumeroPago)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Apellido)
+                @Html.DisplayNameFor(model => model.FechaPago)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DNI)
+                @Html.DisplayNameFor(model => model.Importe)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Telefono)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
+                @Html.DisplayNameFor(model => model.IdContrato)
             </th>
             <th></th>
         </tr>
@@ -35,19 +32,16 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Nombre)
+                    @Html.DisplayFor(modelItem => item.NumeroPago)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Apellido)
+                    @(item.FechaPago.Date.ToString("dd/MM/yyyy"))
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.DNI)
+                    @Html.DisplayFor(modelItem => item.Importe)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Telefono)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
+                    @(item.IdContrato + "---"+item.Contrato.Inmueble.Direccion+"---"+item.Contrato.Inquilino.Apellido)
                 </td>
                 <td>
                     @Html.ActionLink("Editar", "Edit", new { id=item.Id }) |

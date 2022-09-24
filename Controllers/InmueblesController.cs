@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using inmobiliaria_Lorenzo.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 
 namespace inmobiliaria_Lorenzo.Controllers
 {
@@ -22,12 +25,13 @@ namespace inmobiliaria_Lorenzo.Controllers
             repoTipoInmueble = new RepositorioTipoInmueble(configuration);
         }
         // GET: Inmuebles
+        [Authorize]
         public ActionResult Index()
         {
             var inmuebles = repoInmueble.ObtenerInmuebles();
             return View(inmuebles);
         }
-
+        [Authorize]
         // GET: Inmuebles/Details/5
         public ActionResult Details(int id)
         {
@@ -36,6 +40,7 @@ namespace inmobiliaria_Lorenzo.Controllers
         }
 
         // GET: Inmuebles/Create
+        [Authorize]
         public ActionResult Create()
         {
             ViewBag.Propietarios = repoPropietario.ObtenerPropietarios();
@@ -47,6 +52,7 @@ namespace inmobiliaria_Lorenzo.Controllers
         // POST: Inmuebles/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Create(Inmueble inmueble)
         {
             try
@@ -62,6 +68,7 @@ namespace inmobiliaria_Lorenzo.Controllers
         }
 
         // GET: Inmuebles/Edit/5
+        [Authorize]
         public ActionResult Edit(int id)
         {
             ViewBag.Propietarios = repoPropietario.ObtenerPropietarios();
@@ -74,6 +81,7 @@ namespace inmobiliaria_Lorenzo.Controllers
         // POST: Inmuebles/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Edit(int id, Inmueble inmueble)
         {
             Inmueble i = null;
@@ -101,6 +109,7 @@ namespace inmobiliaria_Lorenzo.Controllers
         }
 
         // GET: Inmuebles/Delete/5
+        [Authorize]
         public ActionResult Delete(int id)
         {
             var inmueble = repoInmueble.ObtenerPorId(id);
@@ -110,6 +119,7 @@ namespace inmobiliaria_Lorenzo.Controllers
         // POST: Inmuebles/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id, IFormCollection collection)
         {
             try
